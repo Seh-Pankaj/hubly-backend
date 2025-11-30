@@ -33,4 +33,15 @@ const signupUser = async (req, res) => {
   }
 };
 
-module.exports = { loginUser, signupUser };
+const deleteUser = async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    const us = await User.findOneAndDelete({ _id: userId });
+    res.status(200).json({ success: "success" });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+module.exports = { loginUser, signupUser, deleteUser };
