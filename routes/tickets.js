@@ -1,25 +1,17 @@
 const express = require("express");
-const Ticket = require("../models/ticketModel");
+const {
+  createTicket,
+  addMessage,
+  getTickets,
+} = require("../controllers/ticketController");
+const { resolveTicket } = require("../controllers/teamsController");
 const router = express.Router();
 
-router.post("/", async (req, res) => {
-  const { name, email, phone } = req.body;
+router.post("/create-ticket", createTicket);
+router.post("/resolve-ticket", resolveTicket);
+router.post("/get-tickets", getTickets);
 
-  const ticketNumber = `T-${new Date().getFullYear()}-${Math.floor(
-    Math.random() * 100000
-  ).padStart(5, "0")}`;
-
-  const ticket = await Ticket.create({
-    ticketId: ticketNumber,
-    userId: adminUserId,
-    customerDetails: {
-      name: name,
-      email: email,
-      phone: phone,
-    },
-  });
-
-  res.status(201).json({ ticket: ticket });
-});
+router.post("/intro-message", addMessage);
+router.post("/send-team-message", addMessage);
 
 module.exports = router;

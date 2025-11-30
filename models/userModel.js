@@ -3,7 +3,12 @@ const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema(
   {
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastName: {
       type: String,
       required: true,
       trim: true,
@@ -20,12 +25,14 @@ const userSchema = mongoose.Schema(
       trim: true,
     },
     phone: {
-      type: Number,
+      type: String,
       required: true,
       trim: true,
     },
     role: {
-      type: "Admin" | "Member",
+      type: String,
+      enum: ["Admin", "Member"],
+      default: "Member",
       required: true,
       trim: true,
     },
@@ -33,13 +40,27 @@ const userSchema = mongoose.Schema(
   { timestamps: { createdAt: true, updatedAt: false } }
 );
 
-userSchema.statics.signup = async (name, email, password) => {
+userSchema.statics.signup = async (
+  firstName,
+  lastName,
+  email,
+  password,
+  phone,
+  role
+) => {
   const exists = await User.findOne({ email });
   if (exists) throw Error("Email Id already exists");
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(password, salt);
 
-  const user = User.create({ name, email, password: hash });
+  const user = User.create({
+    firstName,
+    lastName,
+    email,
+    password: hash,
+    phone,
+    role,
+  });
   return user;
 };
 

@@ -26,11 +26,13 @@ const ticketSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    date: {
-      type: Date,
-      default: Date.now,
-    },
-    messages: [String],
+    messages: [
+      {
+        sender: String,
+        message: String,
+        time: Date,
+      },
+    ],
   },
   { timestamps: true }
 );
