@@ -19,7 +19,7 @@ app.use(cors({ origin: REACT_ORIGIN, credentials: true }));
 
 app.use("/api/user", userRouter);
 app.use("/api", ticketsRouter);
-app.use("/authorise", authUser, protectedRoutes);
+app.use("/api/authorise", authUser, protectedRoutes);
 app.use("/api", teamsRouter);
 app.use("/api", chatbotRouter);
 
