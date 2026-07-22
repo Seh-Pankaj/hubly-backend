@@ -15,7 +15,7 @@ const REACT_ORIGIN = process.env.REACT_ORIGIN || "http://localhost:5122";
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: REACT_ORIGIN }));
+app.use(cors({ origin: REACT_ORIGIN, credentials: true }));
 
 app.use("/api/user", userRouter);
 app.use("/api", ticketsRouter);
